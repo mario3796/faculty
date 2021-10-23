@@ -15,13 +15,13 @@
                             <th>Department</th>
                             <th></th>
                         </tr>
-                        <% users.forEach(user=> { %>
+                        <% users.forEach(user => { %>
                             <tr>
-                                <td>user._id</td>
-                                <td>user.name</td>
-                                <td>user.email</td>
-                                <td>user.user_type</td>
-                                <td>user.department</td>
+                                <td><%= user._id %></td>
+                                <td><%= user.name %></td>
+                                <td><%= user.email %></td>
+                                <td><%= user.user_type %></td>
+                                <td><%= user.department %></td>
                                 <td>
                                     <form action="">
                                         <a href="#" class="btn btn-primary">Details</a>
@@ -32,10 +32,11 @@
                             </tr>
                             <% }) %>
                     </table>
-                    <% } %>
+                    <% } else { %>
                         <p class="text-center">No users found. Click
                             <a href="/admin/add-user">here</a> to add users.
                         </p>
+                        <% } %>
             </div>
 
             <%- include('./includes/end') %>
