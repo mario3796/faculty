@@ -19,6 +19,7 @@ app.use(userRoutes);
 mongoose
 .connect("mongodb+srv://Mario:5SooxNnEpX5XvapP@cluster0.e6u5k.mongodb.net/faculty?retryWrites=true&w=majority")
 .then(result => {
+    app.listen(3000);
     console.log('Connected!');
 })
 .catch(err => console.log(err));
