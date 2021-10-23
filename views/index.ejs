@@ -5,31 +5,37 @@
         <%- include('./includes/navigation') %>
 
             <div class="container">
-                <table class="table table-hover">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Department</th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Mario</td>
-                        <td>mario@test.com</td>
-                        <td>IS</td>
-                        <td>
-                            <form action="">
-                                <a href="#" class="btn btn-primary">Details</a>
-                                <a href="#" class="btn btn-success">Edit</a>
-                                <button class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-
-                <p class="text-center">No users found. Click 
-                    <a href="#">here</a> to add users.</p>
+                <% if(users.length> 0) { %>
+                    <table class="table table-hover">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>User Type</th>
+                            <th>Department</th>
+                            <th></th>
+                        </tr>
+                        <% users.forEach(user=> { %>
+                            <tr>
+                                <td>user._id</td>
+                                <td>user.name</td>
+                                <td>user.email</td>
+                                <td>user.user_type</td>
+                                <td>user.department</td>
+                                <td>
+                                    <form action="">
+                                        <a href="#" class="btn btn-primary">Details</a>
+                                        <a href="#" class="btn btn-success">Edit</a>
+                                        <button class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </table>
+                    <% } %>
+                        <p class="text-center">No users found. Click
+                            <a href="/admin/add-user">here</a> to add users.
+                        </p>
             </div>
 
             <%- include('./includes/end') %>
