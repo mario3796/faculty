@@ -2,11 +2,16 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
 exports.getAddUser = (req, res, next) => {
-    res.render('admin/edit-user', {
-        path: '/admin/add-user',
-        title: 'Add User',
-        editing: false
-    });
+    User.find()
+    .then(users => {
+        res.render('admin/edit-user', {
+            path: '/admin/add-user',
+            title: 'Add User',
+            editing: false,
+            users: users
+        });
+    })
+    .catch(err => console.log(err));
 }
 
 exports.postAddUser = (req, res, next) => {
