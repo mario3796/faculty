@@ -34,3 +34,27 @@ exports.postAddUser = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
+exports.getEditUser = (req, res, next) => {
+  const userId = req.params.userId;
+  User.findById(userId)
+  .then(user => {
+    res.render('admin/edit-user', {
+      path: '/admin/edit-user',
+      title: 'Edit User',
+      editing: true,
+      user: user
+    })
+  })
+  .catch(err => console.log(err));
+};
+
+exports.postDeleteUser = (req, res, next) => {
+    const userId = req.body.userId;
+    User.findByIdAndRemove(userId)
+    .then(result => {
+        console.log(result);
+        res.redirect('/');
+    })
+    .catch(err => console.log(err));
+};
