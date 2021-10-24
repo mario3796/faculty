@@ -6,6 +6,10 @@ const adminController = require("../controllers/admin");
 
 router.get('/add-user', adminController.getAddUser);
 
-router.post('/add-user', adminController.postAddUser)
+router.post('/add-user', adminController.postAddUser);
+
+router.get('/edit-user/:userId', adminController.getEditUser);
+
+router.post('/delete-user', adminController.postDeleteUser);
 
 module.exports = router;
