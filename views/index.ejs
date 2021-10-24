@@ -15,17 +15,28 @@
                             <th>Department</th>
                             <th></th>
                         </tr>
-                        <% users.forEach(user => { %>
+                        <% users.forEach(user=> { %>
                             <tr>
-                                <td><%= user._id %></td>
-                                <td><%= user.name %></td>
-                                <td><%= user.email %></td>
-                                <td><%= user.user_type %></td>
-                                <td><%= user.department %></td>
                                 <td>
-                                    <form action="">
+                                    <%= user._id %>
+                                </td>
+                                <td>
+                                    <%= user.name %>
+                                </td>
+                                <td>
+                                    <%= user.email %>
+                                </td>
+                                <td>
+                                    <%= user.user_type %>
+                                </td>
+                                <td>
+                                    <%= user.department %>
+                                </td>
+                                <td>
+                                    <form action="/admin/delete-user" method="post">
                                         <a href="#" class="btn btn-primary">Details</a>
-                                        <a href="#" class="btn btn-success">Edit</a>
+                                        <a href="/admin/edit-user/<%= user._id %>" class="btn btn-success">Edit</a>
+                                        <input hidden value="<%= user._id %>" name="userId" />
                                         <button class="btn btn-danger">Delete</button>
                                     </form>
                                 </td>
