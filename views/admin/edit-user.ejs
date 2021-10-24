@@ -8,30 +8,36 @@
             <form action="/admin/add-user" method="post">
                 <div class="form-group">
                     <label for="fname">First Name</label>
-                    <input type="text" class="form-control" placeholder="Enter First Name" name="fname">
+                    <input type="text" class="form-control"placeholder="Enter First Name"
+                    name="fname" value="<% if(editing) { %><%= user.name.split(' ')[0] %><% } %>">
                 </div>
                 <div class="form-group">
                     <label for="lname">Last Name:</label>
-                    <input type="text" class="form-control" placeholder="Enter Last Name" name="lname">
+                    <input type="text" class="form-control" placeholder="Enter Last Name"
+                    name="lname" value="<% if(editing) { %><%= user.name.split(' ')[1] %><% } %>">
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" class="form-control" placeholder="Enter email" name="email">
+                    <input type="email" class="form-control" placeholder="Enter email"
+                    name="email" value="<% if(editing) { %><%= user.email %><% } %>">
                 </div>
                 <div class="form-group">
                     <label for="pwd">Password:</label>
-                    <input type="password" class="form-control" placeholder="Enter password" name="pwd">
+                    <input type="password" class="form-control" placeholder="Enter password"
+                    name="pwd" value="<% if(editing) { %><%= user.password %><% } %>">
                 </div>
                 <div class="form-group">
                     <label for="userType">User Type:</label>
                     <select name="userType" class="form-control">
-                        <option value="student">Student</option>
-                        <option value="instructor">Instructor</option>
+                        <option value="">Choose user type</option>
+                        <option value="student" <% if(editing) { %> <% if(user.user_type === 'student') { %> selected <% } %><% } %> >Student</option>
+                        <option value="instructor" <% if(editing) { %> <% if(user.user_type === 'instructor') { %> selected <% } %> <% } %>>Instructor</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="dept">Department:</label>
-                    <input type="text" class="form-control" placeholder="Enter Department" name="dept">
+                    <input type="text" class="form-control" placeholder="Enter Department"
+                    name="dept" value="<% if(editing) { %><%= user.department %><% } %>">
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
