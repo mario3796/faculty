@@ -36,3 +36,15 @@ exports.getStudents = (req, res, next) => {
     })
     .catch(err => console.log(err));
 };
+
+exports.getInstructors = (req, res, next) => {
+    User.find({user_type: 'instructor'})
+    .then(users => {
+        res.render('index', {
+            path: '/instructor',
+            title: 'Instructors',
+            users: users
+        })
+    })
+    .catch(err => console.log(err));
+};
