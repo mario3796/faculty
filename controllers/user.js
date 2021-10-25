@@ -10,4 +10,17 @@ exports.getIndex = (req, res, next) => {
         })
     })
     .catch(err => console.log(err));
-}
+};
+
+exports.getDetails = (req, res, next) => {
+    const userId = req.params.userId;
+    User.findById(userId)
+    .then(user => {
+        res.render('user-details', {
+            path: '/user-details',
+            title: 'User Details',
+            user: user
+        });
+    })
+    .catch(err => console.log(err));
+};
