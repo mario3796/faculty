@@ -8,4 +8,6 @@ router.get('/', userController.getIndex);
 
 router.get('/user-details/:userId', userController.getDetails);
 
+router.get('/students', userController.getStudents);
+
 module.exports = router;
