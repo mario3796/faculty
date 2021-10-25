@@ -34,7 +34,7 @@
                                 </td>
                                 <td>
                                     <form action="/admin/delete-user" method="post">
-                                        <a href="#" class="btn btn-primary">Details</a>
+                                        <a href="/user-details/<%= user._id %>" class="btn btn-primary">Details</a>
                                         <a href="/admin/edit-user/<%= user._id %>" class="btn btn-success">Edit</a>
                                         <input hidden value="<%= user._id %>" name="userId" />
                                         <button class="btn btn-danger">Delete</button>
