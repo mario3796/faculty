@@ -4,7 +4,7 @@
     <body>
         <%- include('../includes/navigation') %>
 
-        <div class="container col-lg-8">
+        <div class="container jumbotron">
             <form action="<% if (editing) { %>/admin/edit-user<% } else { %>/admin/add-user<% } %>" method="post">
                 <div class="form-group">
                     <label for="fname">First Name</label>
