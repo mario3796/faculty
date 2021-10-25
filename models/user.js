@@ -21,7 +21,8 @@ const userSchema = new Schema({
     department: {
         type: String,
         required: true
-    }
+    },
+    imageUrl: String
 });
 
 module.exports = mongoose.model('User', userSchema);
