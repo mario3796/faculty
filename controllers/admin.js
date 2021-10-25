@@ -38,23 +38,50 @@ exports.postAddUser = (req, res, next) => {
 exports.getEditUser = (req, res, next) => {
   const userId = req.params.userId;
   User.findById(userId)
-  .then(user => {
-    res.render('admin/edit-user', {
-      path: '/admin/edit-user',
-      title: 'Edit User',
-      editing: true,
-      user: user
+    .then((user) => {
+      res.render("admin/edit-user", {
+        path: "/admin/edit-user",
+        title: "Edit User",
+        editing: true,
+        user: user,
+      });
     })
+    .catch((err) => console.log(err));
+};
+
+exports.postEditUser = (req, res, next) => {
+  const userId = req.body.userId;
+  const firstName = req.body.fname;
+  const lastName = req.body.lname;
+  const email = req.body.email;
+  const password = req.body.pwd;
+  const userType = req.body.userType;
+  const department = req.body.dept;
+  bcrypt.hash(password, 12)
+  .then((hashedPassword) => {
+    User.findById(userId)
+      .then((user) => {
+        user.name = firstName + " " + lastName;
+        user.email = email;
+        user.password = hashedPassword;
+        user.userType = userType;
+        user.department = department;
+        return user.save();
+      })
+      .then((result) => {
+        console.log(result);
+        return res.redirect("/");
+      });
   })
   .catch(err => console.log(err));
 };
 
 exports.postDeleteUser = (req, res, next) => {
-    const userId = req.body.userId;
-    User.findByIdAndRemove(userId)
-    .then(result => {
-        console.log(result);
-        res.redirect('/');
+  const userId = req.body.userId;
+  User.findByIdAndRemove(userId)
+    .then((result) => {
+      console.log(result);
+      res.redirect("/");
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
