@@ -5,7 +5,7 @@
         <%- include('../includes/navigation') %>
 
         <div class="container col-lg-8">
-            <form action="/admin/add-user" method="post">
+            <form action="<% if (editing) { %>/admin/edit-user<% } else { %>/admin/add-user<% } %>" method="post">
                 <div class="form-group">
                     <label for="fname">First Name</label>
                     <input type="text" class="form-control"placeholder="Enter First Name"
@@ -39,6 +39,7 @@
                     <input type="text" class="form-control" placeholder="Enter Department"
                     name="dept" value="<% if(editing) { %><%= user.department %><% } %>">
                 </div>
+                <input type="hidden" value="<% if (editing) { %><%= user._id %><% } %>" name="userId" />
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
             </div>
