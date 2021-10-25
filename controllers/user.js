@@ -24,3 +24,15 @@ exports.getDetails = (req, res, next) => {
     })
     .catch(err => console.log(err));
 };
+
+exports.getStudents = (req, res, next) => {
+    User.find({user_type: 'student'})
+    .then(users => {
+        res.render('index', {
+            path: '/students',
+            title: 'Students',
+            users: users
+        })
+    })
+    .catch(err => console.log(err));
+};
