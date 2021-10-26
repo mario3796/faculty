@@ -85,3 +85,16 @@ exports.postDeleteUser = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
+exports.getAddCourse = (req, res, next) => {
+  User.find({user_type: 'instructor'})
+  .then(users => {
+    res.render('admin/edit-course', {
+      path: '/admin/add-course',
+      title: 'Add Course',
+      editing: false,
+      users: users
+    });
+  })
+  .catch(err => console.log(err));
+};
