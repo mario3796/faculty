@@ -121,7 +121,6 @@ exports.postAddCourse = (req, res, next) => {
     })
   })
   .then(result => {
-    console.log(result);
     res.redirect('/');
   })
   .catch(err => console.log(err));
