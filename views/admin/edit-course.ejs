@@ -23,7 +23,7 @@
                             <select name="instructor" class="form-control">
                                 <option value="">Choose Instructor</option>
                                 <% users.forEach(user => { %>
-                                    <option value="<%= user.name %>">
+                                    <option value="<%= user._id %>">
                                         <%= user.name %>
                                     </option>
                                     <% }) %>
