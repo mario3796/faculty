@@ -1,0 +1,48 @@
+<%- include('./includes/header') %>
+    </head>
+
+    <body>
+        <%- include('./includes/navigation') %>
+
+            <div class="container">
+                <% if(courses.length> 0) { %>
+                    <table class="table table-hover">
+                        <tr>
+                            <th>ID</th>
+                            <th>Course Name</th>
+                            <th>Instructor</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                        <% courses.forEach(course => { %>
+                            <tr>
+                                <td>
+                                    <%= course._id %>
+                                </td>
+                                <td>
+                                    <%= course.name %>
+                                </td>
+                                <td>
+                                    <%= users.find(async user => await user._id === course.instructorId).name %>
+                                </td>
+                                <td>
+                                    <%= course.description %>
+                                </td>
+                                <td>
+                                    <form action="/admin/delete-course" method="post">
+                                        <a href="/admin/edit-course/<%= course._id %>" class="btn btn-success">Edit</a>
+                                        <input hidden value="<%= course._id %>" name="courseId" />
+                                        <button class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </table>
+                    <% } else { %>
+                        <p class="text-center">No courses found. Click
+                            <a href="/admin/add-course">here</a> to add users.
+                        </p>
+                        <% } %>
+            </div>
+
+            <%- include('./includes/end') %>
