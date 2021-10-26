@@ -22,7 +22,8 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    imageUrl: String
+    imageUrl: String,
+    courses: []
 });
 
 module.exports = mongoose.model('User', userSchema);
