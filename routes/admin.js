@@ -16,4 +16,6 @@ router.post('/delete-user', adminController.postDeleteUser);
 
 router.get('/add-course', adminController.getAddCourse);
 
+router.post('/add-course', adminController.postAddCourse);
+
 module.exports = router;
