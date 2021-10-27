@@ -6,12 +6,14 @@ const userController = require("../controllers/user");
 
 router.get('/', userController.getIndex);
 
-router.get('/user-details/:userId', userController.getDetails);
+router.get('/user-details/:userId', userController.getUserDetails);
 
 router.get('/students', userController.getStudents);
 
 router.get('/instructors', userController.getInstructors);
 
 router.get('/courses', userController.getCourses);
+
+router.get('/course-details/:courseId', userController.getCourseDetails);
 
 module.exports = router;
