@@ -4,21 +4,20 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const path = require("path");
 const mongoose = require("mongoose");
-const SessionStore = require("connect-mongodb-session")(session);
+const MongoStore = require("connect-mongo");
 
 const userRoutes= require("./routes/user");
 const adminRoutes = require("./routes/admin");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 
 const MONGODB_URL = "mongodb+srv://Mario:5SooxNnEpX5XvapP@cluster0.e6u5k.mongodb.net/faculty?retryWrites=true&w=majority";
 
-const store = new SessionStore({
-    url: MONGODB_URL,
-    collection: 'sessions'
-});
-
-store.on('error', error => console.log(error));
+const store = MongoStore.create({
+    mongoUrl: MONGODB_URL,
+    ttl: 60 * 60
+})
 
 app.use(session({
     secret: 'This is a secret',
@@ -38,6 +37,7 @@ app.set("view engine", "ejs");
 
 app.use(userRoutes);
 app.use('/admin', adminRoutes);
+app.use('/auth', authRoutes);
 
 mongoose
 .connect(MONGODB_URL)
