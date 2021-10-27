@@ -121,7 +121,25 @@ exports.postAddCourse = (req, res, next) => {
     })
   })
   .then(result => {
-    res.redirect('/');
+    res.redirect('/courses');
+  })
+  .catch(err => console.log(err));
+};
+
+exports.postDeleteCourse = (req, res, next) => {
+  const courseId = req.body.courseId;
+  Course.findByIdAndRemove(courseId)
+  .then(course => {
+    User.findById(course.instructorId)
+    .then(user => {
+      const courses = user.courses.filter(e => e.course_id != courseId);
+      console.log(courses);
+      user.courses = [...courses];
+      return user.save();
+    })
+  })
+  .then(result => {
+    res.redirect('/courses');
   })
   .catch(err => console.log(err));
 };
