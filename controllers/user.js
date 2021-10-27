@@ -13,7 +13,7 @@ exports.getIndex = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.getDetails = (req, res, next) => {
+exports.getUserDetails = (req, res, next) => {
   const userId = req.params.userId;
   User.findById(userId)
     .then((user) => {
@@ -63,4 +63,17 @@ exports.getCourses = async (req, res, next) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+exports.getCourseDetails = (req, res, next) => {
+  const courseId = req.params.courseId;
+  Course.findById(courseId)
+  .then(course => {
+    res.render('course-details', {
+      path: '/course-details',
+      title: 'Course Details',
+      course: course
+    })
+  })
+  .catch(err => console.log(err));
 };
