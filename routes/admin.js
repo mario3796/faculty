@@ -18,4 +18,6 @@ router.get('/add-course', adminController.getAddCourse);
 
 router.post('/add-course', adminController.postAddCourse);
 
+router.post('/delete-course', adminController.postDeleteCourse);
+
 module.exports = router;
