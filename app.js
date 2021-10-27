@@ -1,9 +1,10 @@
 const express = require("express");
 
 const bodyParser = require("body-parser");
+const session = require("express-session");
 const path = require("path");
 const mongoose = require("mongoose");
-const SessionStore = require("express-session")(express);
+const SessionStore = require("connect-mongodb-session")(session);
 
 const userRoutes= require("./routes/user");
 const adminRoutes = require("./routes/admin");
@@ -14,13 +15,20 @@ const MONGODB_URL = "mongodb+srv://Mario:5SooxNnEpX5XvapP@cluster0.e6u5k.mongodb
 
 const store = new SessionStore({
     url: MONGODB_URL,
-    interval: 120000
+    collection: 'sessions'
 });
 
-app.use(express.session({
+store.on('error', error => console.log(error));
+
+app.use(session({
+    secret: 'This is a secret',
+    cookie: {
+        maxAge: 1000 * 60 * 60
+    },
     store: store,
-    cookie: { maxAge: 900000 }
-}))
+    resave: true,
+    saveUninitialized: true
+}));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
