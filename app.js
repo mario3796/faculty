@@ -10,6 +10,8 @@ const userRoutes= require("./routes/user");
 const adminRoutes = require("./routes/admin");
 const authRoutes = require("./routes/auth");
 
+const User = require("./models/user");
+
 const app = express();
 
 const MONGODB_URL = "mongodb+srv://Mario:5SooxNnEpX5XvapP@cluster0.e6u5k.mongodb.net/faculty?retryWrites=true&w=majority";
@@ -40,9 +42,25 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+    if(!req.session.user) {
+        return next();
+    }
+    User.findById(req.session.user._id)
+    .then(user => {
+        if(!user) {
+            return next();
+        }
+        req.user = user;
+        res.locals.userType = user.user_type;
+        next();
+    })
+    .catch(err => console.log(err));
+});
+
 app.use(userRoutes);
-app.use('/admin', adminRoutes);
 app.use('/auth', authRoutes);
+app.use('/admin', adminRoutes);
 
 mongoose
 .connect(MONGODB_URL)
