@@ -35,6 +35,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    next();
+});
+
 app.use(userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/auth', authRoutes);
