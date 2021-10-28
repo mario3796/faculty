@@ -2,7 +2,7 @@ const User = require("../models/user");
 const Course = require("../models/course");
 
 exports.getIndex = (req, res, next) => {
-  User.find()
+  User.find({ user_type: {$ne: 'admin'} })
     .then((users) => {
       res.render("index", {
         path: "/",
