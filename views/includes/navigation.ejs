@@ -1,25 +1,29 @@
-
 <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">Index</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li><a href="/students">Students</a></li>
-        <li><a href="/instructors">Instructors</a></li>
-        <li><a href="/courses">Courses</a></li>
-        <% if(isAuthenticated) { %>
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Index</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/students">Students</a></li>
+      <li><a href="/instructors">Instructors</a></li>
+      <li><a href="/courses">Courses</a></li>
+      <% if(isAuthenticated) { %>
         <li><a href="/admin/add-course">Add Course</a></li>
         <li><a href="/admin/add-user">Add User</a></li>
         <% } %>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <% if(isAuthenticated) { %>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <% if(!isAuthenticated) { %>
         <li><a href="/auth/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
         <li><a href="/auth/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         <% } else { %>
-        <li><a href="/auth/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-        <% } %>
-      </ul>
-    </div>
-  </nav>
+          <li id="logout">
+          <form method="post" action="/auth/logout">
+              <button id="logout" type="submit" class="btn navbar-btn"><span class="glyphicon glyphicon-log-out"></span>
+                Logout</button>
+              </form>
+            </li>
+          <% } %>
+    </ul>
+  </div>
+</nav>
