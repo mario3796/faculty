@@ -33,4 +33,27 @@ exports.postSignup = (req, res, next) => {
         res.redirect('/auth/login');
     })
     .catch(err => console.log(err));
-}
+};
+
+exports.postLogin = (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.pwd;
+    User.findOne({email: email})
+    .then(user => {
+        bcrypt.compare(password, user.password)
+        .then(doMatch => {
+            if(doMatch) {
+                req.session.isLoggedIn = true;
+                req.session.user = user;
+                return req.session.save(err => {
+                    console.log(err);
+                    console.log(req.session);
+                    res.redirect('/');
+                })
+            } else {
+                return res.redirect('/auth/login');
+            }
+        })
+    })
+    .catch(err => console.log(err));
+};
