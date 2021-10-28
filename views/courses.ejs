@@ -26,9 +26,6 @@
                                     <%= users.find(async user => await user._id === course.instructorId).name %>
                                 </td>
                                 <td>
-                                    <%= course.description %>
-                                </td>
-                                <td>
                                     <form action="/admin/delete-course" method="post">
                                         <a href="/admin/edit-course/<%= course._id %>" class="btn btn-success">Edit</a>
                                         <a href="/course-details/<%= course._id %>" class="btn btn-primary">Details</a>
