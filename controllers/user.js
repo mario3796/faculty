@@ -77,3 +77,15 @@ exports.getCourseDetails = (req, res, next) => {
   })
   .catch(err => console.log(err));
 };
+
+exports.getInstructorCourses = (req, res, next) => {
+  Course.find({instructorId: req.user._id})
+  .then(courses => {
+      res.render('courses', {
+          path: '/instructor-courses',
+          title: 'Instructor Courses',
+          courses: courses
+      });
+  })
+  .catch(err => console.log(err));
+};
