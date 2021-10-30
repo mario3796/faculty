@@ -16,4 +16,6 @@ router.get('/courses', userController.getCourses);
 
 router.get('/course-details/:courseId', userController.getCourseDetails);
 
+router.get('/instructor-courses', userController.getInstructorCourses);
+
 module.exports = router;
