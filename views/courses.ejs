@@ -11,7 +11,6 @@
                             <th>ID</th>
                             <th>Course Name</th>
                             <th>Instructor</th>
-                            <th>Description</th>
                             <th></th>
                         </tr>
                         <% courses.forEach(course => { %>
@@ -22,9 +21,11 @@
                                 <td>
                                     <%= course.name %>
                                 </td>
+                                <% if (path !== "/instructor-courses") { %>
                                 <td>
                                     <%= users.find(async user => await user._id === course.instructorId).name %>
                                 </td>
+                                <% } %>
                                 <td>
                                     <form action="/admin/delete-course" method="post">
                                         <a href="/course-details/<%= course._id %>" class="btn btn-primary">Details</a>
