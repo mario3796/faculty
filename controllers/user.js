@@ -79,13 +79,29 @@ exports.getCourseDetails = (req, res, next) => {
 };
 
 exports.getInstructorCourses = (req, res, next) => {
-  Course.find({instructorId: req.user._id})
-  .then(courses => {
-      res.render('courses', {
-          path: '/instructor-courses',
-          title: 'Instructor Courses',
-          courses: courses
-      });
+    Course.find({instructorId: req.user._id})
+    .then(courses => {
+        res.render('courses', {
+            path: '/instructor-courses',
+            title: 'Instructor Courses',
+            courses: courses
+        });
+    })
+    .catch(err => console.log(err));
+};
+
+exports.postRegisterCourse = (req, res, next) => {
+  const courseId = req.body.courseId;
+  User.findById(req.user._id)
+  .then(user => {
+    Course.findById(courseId)
+    .then(course => {
+      user.courses.push(course);
+      return user.save();
+    })
+  })
+  .then(result => {
+    res.redirect('/');
   })
   .catch(err => console.log(err));
-};
+}
