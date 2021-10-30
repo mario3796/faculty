@@ -18,4 +18,6 @@ router.get('/course-details/:courseId', userController.getCourseDetails);
 
 router.get('/instructor-courses', userController.getInstructorCourses);
 
+router.post('/register-course', userController.postRegisterCourse);
+
 module.exports = router;
