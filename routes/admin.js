@@ -4,20 +4,23 @@ const router = express.Router();
 
 const adminController = require("../controllers/admin");
 
-router.get('/add-user', adminController.getAddUser);
+const isAuth = require("../middlewares/is-auth");
+const isAdmin = require("../middlewares/is-admin");
 
-router.post('/add-user', adminController.postAddUser);
+router.get('/add-user',isAuth, isAdmin, adminController.getAddUser);
 
-router.get('/edit-user/:userId', adminController.getEditUser);
+router.post('/add-user',isAuth, isAdmin, adminController.postAddUser);
 
-router.post('/edit-user', adminController.postEditUser);
+router.get('/edit-user/:userId',isAuth, isAdmin, adminController.getEditUser);
 
-router.post('/delete-user', adminController.postDeleteUser);
+router.post('/edit-user',isAuth, isAdmin, adminController.postEditUser);
 
-router.get('/add-course', adminController.getAddCourse);
+router.post('/delete-user',isAuth, isAdmin, adminController.postDeleteUser);
 
-router.post('/add-course', adminController.postAddCourse);
+router.get('/add-course',isAuth, isAdmin, adminController.getAddCourse);
 
-router.post('/delete-course', adminController.postDeleteCourse);
+router.post('/add-course',isAuth, isAdmin, adminController.postAddCourse);
+
+router.post('/delete-course',isAuth, isAdmin, adminController.postDeleteCourse);
 
 module.exports = router;
