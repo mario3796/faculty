@@ -11,6 +11,9 @@
         <li><a href="/admin/add-course">Add Course</a></li>
         <li><a href="/admin/add-user">Add User</a></li>
         <% } %>
+        <% if(isAuthenticated && userType === 'instructor') { %>
+          <li><a href="/instructor-courses">My Courses</a></li>
+          <% } %>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <% if(!isAuthenticated) { %>
