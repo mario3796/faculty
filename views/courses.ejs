@@ -28,7 +28,7 @@
                                 <% } %>
                                 <td>
                                     <% if(isAuthenticated && userType === 'student' && path === '/courses') { %>
-                                    <form action="/register-course" method="post">
+                                    <form action="/add-course" method="post">
                                             <input type="hidden" value="<%= course._id%>" name="courseId">
                                             <button class="btn btn-success">Register</button>
                                         </form>

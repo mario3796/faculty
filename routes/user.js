@@ -18,7 +18,7 @@ router.get('/course-details/:courseId', userController.getCourseDetails);
 
 router.get('/instructor-courses', userController.getInstructorCourses);
 
-router.post('/register-course', userController.postRegisterCourse);
+router.post('/add-course', userController.postAddCourse);
 
 router.get('/student-courses', userController.getStudentCourses);
 
