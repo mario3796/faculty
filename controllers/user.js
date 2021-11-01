@@ -90,7 +90,7 @@ exports.getInstructorCourses = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-exports.postRegisterCourse = (req, res, next) => {
+exports.postAddCourse = (req, res, next) => {
   const courseId = req.body.courseId;
   User.findById(req.user._id)
   .then(user => {
