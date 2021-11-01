@@ -33,6 +33,12 @@
                                             <button class="btn btn-success">Register</button>
                                         </form>
                                         <% } %>
+                                        <% if(isAuthenticated && userType === 'student' && path === '/student-courses') { %>
+                                            <form action="/delete-course" method="post">
+                                                    <input type="hidden" value="<%= course._id%>" name="courseId">
+                                                    <button class="btn btn-danger">Unregister</button>
+                                                </form>
+                                                <% } %>
                                     <form action="/admin/delete-course" method="post">
                                         <a href="/course-details/<%= course._id %>" class="btn btn-primary">Details</a>
                                         <% if(isAuthenticated && userType === 'admin') { %>
