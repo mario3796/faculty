@@ -122,3 +122,15 @@ exports.getStudentCourses = async (req, res, next) => {
   })
   .catch(err => console.log(err));
 }
+
+exports.postDeleteCourse =  (req, res, next) => {
+  const courseId = req.body.courseId;
+  let courses = [...req.user.courses];
+  courses = courses.filter(course => course._id.toString() != courseId);
+  req.user.courses = [...courses];
+  req.user.save()
+  .then(result => {
+    res.redirect("/student-courses");
+  })
+  .catch(err => console.log(err));
+};
