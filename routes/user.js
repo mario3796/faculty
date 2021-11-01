@@ -22,4 +22,6 @@ router.post('/register-course', userController.postRegisterCourse);
 
 router.get('/student-courses', userController.getStudentCourses);
 
+router.post('/delete-course', userController.postDeleteCourse);
+
 module.exports = router;
