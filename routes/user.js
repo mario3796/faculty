@@ -20,4 +20,6 @@ router.get('/instructor-courses', userController.getInstructorCourses);
 
 router.post('/register-course', userController.postRegisterCourse);
 
+router.get('/student-courses', userController.getStudentCourses);
+
 module.exports = router;
