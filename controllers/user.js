@@ -105,3 +105,20 @@ exports.postRegisterCourse = (req, res, next) => {
   })
   .catch(err => console.log(err));
 }
+
+exports.getStudentCourses = async (req, res, next) => {
+  User.findById(req.user._id)
+  .then(user => {
+    const courses = user.courses;
+    User.find({user_type: 'instructor'})
+    .then(users => {
+      return res.render('courses', {
+        path: '/student-courses',
+        title: 'Student Courses',
+        courses: courses,
+        users: users
+      })
+    })
+  })
+  .catch(err => console.log(err));
+}
