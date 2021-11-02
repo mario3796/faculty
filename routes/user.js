@@ -18,10 +18,13 @@ router.get('/course-details/:courseId', userController.getCourseDetails);
 
 router.get('/instructor-courses', userController.getInstructorCourses);
 
+router.get('/add-course', userController.getAddCourse);
+
 router.post('/add-course', userController.postAddCourse);
 
 router.get('/student-courses', userController.getStudentCourses);
 
 router.post('/delete-course', userController.postDeleteCourse);
+
 
 module.exports = router;
