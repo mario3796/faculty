@@ -44,6 +44,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
     if(!req.session.user) {
+        res.locals.userType = null;
         return next();
     }
     User.findById(req.session.user._id)
