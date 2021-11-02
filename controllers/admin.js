@@ -113,10 +113,7 @@ exports.postAddCourse = (req, res, next) => {
   .then(result => {
     User.findById(instructorId)
     .then(user => {
-      user.courses.push({
-        course_id: result._id,
-        course_name: result.name
-      });
+      user.courses.push(result);
       return user.save();
     })
   })
