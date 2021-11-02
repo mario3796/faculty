@@ -27,7 +27,7 @@
                                 </td>
                                 <% } %>
                                 <td>
-                                    <% if(isAuthenticated && userType === 'student' && path === '/courses') { %>
+                                    <% if(isAuthenticated && userType === 'student' && path === '/add-course') { %>
                                     <form action="/add-course" method="post">
                                             <input type="hidden" value="<%= course._id%>" name="courseId">
                                             <button class="btn btn-success">Register</button>
@@ -52,8 +52,11 @@
                             <% }) %>
                     </table>
                     <% } else { %>
-                        <p class="text-center">No courses found. Click
+                        <p class="text-center">No courses found.
+                            <% if (isAuthenticated && userType === 'admin') { %>
+                            Click
                             <a href="/admin/add-course">here</a> to add courses.
+                            <% } %>
                         </p>
                         <% } %>
             </div>
