@@ -6,7 +6,9 @@
     <ul class="nav navbar-nav">
       <li><a href="/students">Students</a></li>
       <li><a href="/instructors">Instructors</a></li>
-      <li><a href="/courses">Courses</a></li>
+      <% if(userType !== 'student') { %>
+        <li><a href="/courses">Courses</a></li>
+      <% } %>
       <% if(isAuthenticated && userType === 'admin') { %>
         <li><a href="/admin/add-course">Add Course</a></li>
         <li><a href="/admin/add-user">Add User</a></li>
@@ -15,6 +17,7 @@
           <li><a href="/instructor-courses">My Courses</a></li>
           <% } %>
           <% if(isAuthenticated && userType === 'student') { %>
+            <li><a href="/add-course">Courses</a></li>
             <li><a href="/student-courses">My Courses</a></li>
             <% } %>
     </ul>
