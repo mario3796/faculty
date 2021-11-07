@@ -150,6 +150,21 @@ exports.getEditCourse = async (req, res, next) => {
   });
 };
 
+exports.postEditCourse = (req, res, next) => {
+  const courseId = req.body.courseId;
+  const name = req.body.name;
+  const description = req.body.desc;
+  const instructorId = req.body.instructor;
+  Course.findById(courseId)
+  .then(course => {
+    course.name = name;
+    course.description = description;
+    course.instructorId = instructorId;
+    return course.save();
+  })
+  .then(result => res.redirect("/courses"));
+};
+
 exports.postDeleteCourse = (req, res, next) => {
   const courseId = req.body.courseId;
   Course.findByIdAndRemove(courseId)
