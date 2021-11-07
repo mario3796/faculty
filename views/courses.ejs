@@ -23,7 +23,7 @@
                                 </td>
                                 <% if (path !== "/instructor-courses") { %>
                                 <td>
-                                    <%= users.find(async user => await user._id === course.instructorId).name %>
+                                    <%= users.find(user => user._id.toString() == course.instructorId.toString()).name %>
                                 </td>
                                 <% } %>
                                 <td>
