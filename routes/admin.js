@@ -23,6 +23,8 @@ router.post('/add-course',isAuth, isAdmin, adminController.postAddCourse);
 
 router.get('/edit-course/:courseId', isAuth, isAdmin, adminController.getEditCourse);
 
+router.post('/edit-course', isAuth, isAdmin, adminController.postEditCourse);
+
 router.post('/delete-course',isAuth, isAdmin, adminController.postDeleteCourse);
 
 module.exports = router;
