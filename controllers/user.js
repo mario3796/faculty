@@ -90,7 +90,7 @@ exports.getInstructorCourses = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.getAddCourse = (req, res, next) => {
+exports.getAddCourse = async (req, res, next) => {
   Course.find()
     .then((courses) => {
       let remainingCourses = [];
@@ -107,7 +107,7 @@ exports.getAddCourse = (req, res, next) => {
             remainingCourses.push(i);
           }
         });
-        if(remainingCourses.length > 0) {
+        if (remainingCourses.length > 0) {
           courses = [...remainingCourses];
         } else {
           courses = [];
