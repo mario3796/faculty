@@ -82,7 +82,21 @@ exports.postDeleteUser = (req, res, next) => {
   const userId = req.body.userId;
   User.findByIdAndRemove(userId)
     .then((result) => {
-      console.log(result);
+      if (result.user_type === "instructor") {
+        if (result.courses.length > 0) {
+          return Course.deleteMany({ instructorId: result._id }, () => {
+            User.find({ user_type: "student" }).then((students) => {
+              students.forEach(async (student) => {                
+                student.courses = [];
+                await student.save();
+              });
+            })
+            .then(result => res.redirect("/"));
+          });
+        }
+      }
+    })
+    .then((result) => {
       res.redirect("/");
     })
     .catch((err) => console.log(err));
@@ -109,34 +123,33 @@ exports.postAddCourse = (req, res, next) => {
   course.name = name;
   course.description = description;
   course.instructorId = instructorId;
-  course.save()
-  .then(result => {
-    User.findById(instructorId)
-    .then(user => {
-      user.courses.push(result);
-      return user.save();
+  course
+    .save()
+    .then((result) => {
+      User.findById(instructorId).then((user) => {
+        user.courses.push(result);
+        return user.save();
+      });
     })
-  })
-  .then(result => {
-    res.redirect('/courses');
-  })
-  .catch(err => console.log(err));
+    .then((result) => {
+      res.redirect("/courses");
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.postDeleteCourse = (req, res, next) => {
   const courseId = req.body.courseId;
   Course.findByIdAndRemove(courseId)
-  .then(course => {
-    User.findById(course.instructorId)
-    .then(user => {
-      const courses = user.courses.filter(e => e.course_id != courseId);
-      console.log(courses);
-      user.courses = [...courses];
-      return user.save();
+    .then((course) => {
+      User.findById(course.instructorId).then((user) => {
+        const courses = user.courses.filter((e) => e.course_id != courseId);
+        console.log(courses);
+        user.courses = [...courses];
+        return user.save();
+      });
     })
-  })
-  .then(result => {
-    res.redirect('/courses');
-  })
-  .catch(err => console.log(err));
+    .then((result) => {
+      res.redirect("/courses");
+    })
+    .catch((err) => console.log(err));
 };
