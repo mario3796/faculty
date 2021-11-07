@@ -10,6 +10,8 @@ const userRoutes= require("./routes/user");
 const adminRoutes = require("./routes/admin");
 const authRoutes = require("./routes/auth");
 
+const errorController = require("./controllers/error");
+
 const User = require("./models/user");
 
 const app = express();
@@ -62,6 +64,7 @@ app.use((req, res, next) => {
 app.use(userRoutes);
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
+app.use(errorController.get404);
 
 mongoose
 .connect(MONGODB_URL)
