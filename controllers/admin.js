@@ -137,6 +137,19 @@ exports.postAddCourse = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+exports.getEditCourse = async (req, res, next) => {
+  const courseId = req.params.courseId;
+  const users = await User.find({user_type: 'instructor'});
+  const course = await Course.findById(courseId);
+  res.render('admin/edit-course', {
+    path: '/admin/edit-course',
+    title: 'Edit Course',
+    editing: true,
+    course: course,
+    users: users
+  });
+};
+
 exports.postDeleteCourse = (req, res, next) => {
   const courseId = req.body.courseId;
   Course.findByIdAndRemove(courseId)
