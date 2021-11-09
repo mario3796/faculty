@@ -17,6 +17,7 @@ exports.postAddUser = (req, res, next) => {
   const password = req.body.pwd;
   const userType = req.body.userType;
   const department = req.body.dept;
+  const imageUrl = req.file.path.toString();
 
   bcrypt
     .hash(password, 12)
@@ -27,6 +28,7 @@ exports.postAddUser = (req, res, next) => {
       user.password = hashedPassword;
       user.user_type = userType;
       user.department = department;
+      user.imageUrl = imageUrl;
       return user.save();
     })
     .then((result) => {
