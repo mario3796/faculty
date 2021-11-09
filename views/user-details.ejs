@@ -6,7 +6,7 @@
         <%- include('./includes/navigation.ejs') %>
 
             <div class="container text-center jumbotron">
-                <img width="250px" src="/images/nodejs-logo.png" alt="" class="img-thumbnail">
+                <img width="250px" src="../<%= user.imageUrl %>" alt="" class="img-thumbnail">
                     <h2><%= user.name %></h2>
                     <h3><%= user.email %></h3>
                     <h3><%= user.user_type %></h3>
