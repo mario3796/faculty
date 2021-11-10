@@ -168,3 +168,16 @@ exports.postDeleteCourse = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
+exports.getProfile = (req, res, next) => {
+  const userId = req.params.userId;
+  User.findById(userId.match(/^[0-9a-fA-F]{24}$/))
+  .then(user => {
+    res.render('user-details', {
+      path: '/profile',
+      title: 'My Profile',
+      user: user
+    })
+    .catch(err => console.log(err));
+  })
+}
