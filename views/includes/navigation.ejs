@@ -26,6 +26,7 @@
         <li><a href="/auth/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
         <li><a href="/auth/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         <% } else { %>
+          <li><a href="/profile/<%= userId %>">Profile <img height="25" src="../../<%= userImage %>" alt=""></a></li>
           <li id="logout">
           <form method="post" action="/auth/logout">
               <button id="logout" class="btn navbar-btn"><span class="glyphicon glyphicon-log-out"></span>
