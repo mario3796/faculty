@@ -26,5 +26,6 @@ router.get('/student-courses', userController.getStudentCourses);
 
 router.post('/delete-course', userController.postDeleteCourse);
 
+router.get('/profile/:userId', userController.getProfile);
 
 module.exports = router;
