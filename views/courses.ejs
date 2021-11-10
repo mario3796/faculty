@@ -40,9 +40,9 @@
                                                 </form>
                                                 <% } %>
                                     <form action="/admin/delete-course" method="post">
-                                        <a href="/course-details/<%= course._id %>" class="btn btn-primary">Details</a>
+                                        <a href="/course-details/<%= course._id %>" class="btn btn-success">Details</a>
                                         <% if(isAuthenticated && userType === 'admin') { %>
-                                        <a href="/admin/edit-course/<%= course._id %>" class="btn btn-success">Edit</a>
+                                        <a href="/admin/edit-course/<%= course._id %>" class="btn btn-primary">Edit</a>
                                         <input hidden value="<%= course._id %>" name="courseId" />
                                         <button class="btn btn-danger">Delete</button>
                                         <% } %>
