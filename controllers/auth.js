@@ -19,6 +19,7 @@ exports.postSignup = (req, res, next) => {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.pwd;
+    const imageUrl = req.file.path;
     bcrypt.hash(password, 12)
     .then(hashedPassword => {
         const user = new User();
@@ -26,6 +27,7 @@ exports.postSignup = (req, res, next) => {
         user.email = email;
         user.password = hashedPassword;
         user.user_type = 'admin';
+        user.imageUrl = imageUrl;
         return user.save();
     })
     .then(result => {
