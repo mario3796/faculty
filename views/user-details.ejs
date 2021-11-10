@@ -11,6 +11,9 @@
                     <h3><%= user.email %></h3>
                     <h3><%= user.user_type %></h3>
                     <h3><%= user.department %></h3>
+                    <% if (path === '/profile') {%>
+                    <a href="/edit-profile/<%= userId %>" class="btn btn-primary">Edit Profile</a>
+                    <% } %>
             </div>
 
             <%- include('./includes/end.ejs') %>
