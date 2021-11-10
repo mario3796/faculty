@@ -86,6 +86,8 @@ app.use((req, res, next) => {
       }
       req.user = user;
       res.locals.userType = user.user_type;
+      res.locals.userImage = user.imageUrl;
+      res.locals.userId = user._id
       next();
     })
     .catch((err) => console.log(err));
