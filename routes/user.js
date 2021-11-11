@@ -28,4 +28,6 @@ router.post('/delete-course', userController.postDeleteCourse);
 
 router.get('/profile/:userId', userController.getProfile);
 
+router.get('/edit-profile/:userId', userController.getEditProfile);
+
 module.exports = router;
