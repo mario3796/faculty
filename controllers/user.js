@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+
 const User = require("../models/user");
 const Course = require("../models/course");
 
@@ -180,4 +182,19 @@ exports.getProfile = (req, res, next) => {
     })
     .catch(err => console.log(err));
   })
+};
+
+exports.getEditProfile = (req, res, next) => {
+  const userId = req.params.userId;
+  User.findById(userId)
+  .then(user => {
+    console.log(user);
+    res.render('admin/edit-user', {
+      path: '/edit-profile',
+      title: 'Edit Profile',
+      user: user,
+      editing: true
+    })
+  })
+  .catch(err => console.log(err));
 }
