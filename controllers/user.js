@@ -198,3 +198,28 @@ exports.getEditProfile = (req, res, next) => {
   })
   .catch(err => console.log(err));
 }
+
+exports.postEditProfile = (req, res, next) => {
+  const userId = req.body.userId;
+  const firstName = req.body.fname;
+  const lastName = req.body.lname;
+  const imageUrl = req.file.path;
+  const email = req.body.email;
+  const password = req.body.pwd;
+
+  bcrypt.hash(password, 12)
+  .then(hashedPwd => {
+    User.findById(userId)
+    .then(user => {
+      user.name = (firstName + ' ' + lastName).trim();
+      user.imageUrl = imageUrl;
+      user.email = email;
+      user.password = hashedPwd;
+      return user.save();
+    })
+  })
+  .then(result => {
+    res.redirect('/profile/'+userId);
+  })
+  .catch(err => console.log(err));
+}
