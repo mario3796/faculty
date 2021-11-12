@@ -23,14 +23,14 @@
                                 </td>
                                 <% if (path !== "/instructor-courses") { %>
                                 <td>
-                                    <%= users.find(user => user._id.toString() == course.instructorId.toString()).name %>
+                                    <%= course.instructor.name %>
                                 </td>
                                 <% } %>
                                 <td>
                                     <% if(isAuthenticated && userType === 'student' && path === '/add-course') { %>
                                     <form action="/add-course" method="post">
                                             <input type="hidden" value="<%= course._id%>" name="courseId">
-                                            <button class="btn btn-success">Register</button>
+                                            <button class="btn btn-primary">Register</button>
                                         </form>
                                         <% } %>
                                         <% if(isAuthenticated && userType === 'student' && path === '/student-courses') { %>
