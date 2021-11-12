@@ -10,7 +10,9 @@
                         <tr>
                             <th>ID</th>
                             <th>Course Name</th>
-                            <th>Instructor</th>
+                            <% if (path !== "/instructor-courses") { %>
+                                <th>Instructor</th>
+                            <% } %>
                             <th></th>
                         </tr>
                         <% courses.forEach(course => { %>
