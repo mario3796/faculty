@@ -66,7 +66,7 @@ exports.getCourses = (req, res, next) => {
 
 exports.getCourseDetails = (req, res, next) => {
   const courseId = req.params.courseId;
-  Course.findById(courseId)
+  Course.findById(courseId).populate('instructor')
     .then((course) => {
       res.render("course-details", {
         path: "/course-details",
