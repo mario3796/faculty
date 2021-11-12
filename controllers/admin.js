@@ -89,13 +89,14 @@ exports.postDeleteUser = (req, res, next) => {
       if (result.user_type === "instructor") {
         if (result.courses.length > 0) {
           return Course.deleteMany({ instructorId: result._id }, () => {
-            User.find({ user_type: "student" }).then((students) => {
-              students.forEach(async (student) => {                
-                student.courses = [];
-                await student.save();
-              });
-            })
-            .then(result => res.redirect("/"));
+            User.find({ user_type: "student" })
+              .then((students) => {
+                students.forEach(async (student) => {
+                  student.courses = [];
+                  await student.save();
+                });
+              })
+              .then((result) => res.redirect("/"));
           });
         }
       }
@@ -144,14 +145,14 @@ exports.postAddCourse = (req, res, next) => {
 
 exports.getEditCourse = async (req, res, next) => {
   const courseId = req.params.courseId;
-  const users = await User.find({user_type: 'instructor'});
+  const users = await User.find({ user_type: "instructor" });
   const course = await Course.findById(courseId);
-  res.render('admin/edit-course', {
-    path: '/admin/edit-course',
-    title: 'Edit Course',
+  res.render("admin/edit-course", {
+    path: "/admin/edit-course",
+    title: "Edit Course",
     editing: true,
     course: course,
-    users: users
+    users: users,
   });
 };
 
@@ -161,24 +162,26 @@ exports.postEditCourse = (req, res, next) => {
   const description = req.body.desc;
   const instructorId = req.body.instructor;
   Course.findById(courseId)
-  .then(course => {
-    course.name = name;
-    course.description = description;
-    course.instructorId = instructorId;
-    return course.save();
-  })
-  .then(result => res.redirect("/courses"));
+    .then((course) => {
+      course.name = name;
+      course.description = description;
+      course.instructorId = instructorId;
+      return course.save();
+    })
+    .then((result) => res.redirect("/courses"));
 };
 
 exports.postDeleteCourse = (req, res, next) => {
   const courseId = req.body.courseId;
   Course.findByIdAndRemove(courseId)
     .then((course) => {
-      User.findById(course.instructorId).then((user) => {
-        const courses = user.courses.filter((e) => e.course_id != courseId);
-        console.log(courses);
-        user.courses = [...courses];
-        return user.save();
+      return User.find().then((users) => {
+        users.forEach((user) => {
+          user.courses = user.courses.filter(
+            (course) => course._id.toString() != courseId.toString()
+          );
+          user.save();
+        });
       });
     })
     .then((result) => {
