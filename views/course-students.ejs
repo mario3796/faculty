@@ -1,0 +1,31 @@
+<%- include('./includes/header') %>
+    </head>
+
+    <body>
+        <%- include('./includes/navigation') %>
+
+            <div class="container">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Image</th>
+                            <th></th>
+                        </tr>
+                        <% course.students.forEach(student => { %>
+                            <tr>
+                                <td>
+                                    <%= student._id %>
+                                </td>
+                                <td>
+                                    <%= student.name %>
+                                </td>
+                                <td>
+                                    <img src="../<%= student.imageUrl %>" height="60" alt="">
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </table>
+            </div>
+
+            <%- include('./includes/end') %>
