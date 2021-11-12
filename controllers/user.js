@@ -123,14 +123,14 @@ exports.getAddCourse = (req, res, next) => {
 
 exports.postAddCourse = (req, res, next) => {
   const courseId = req.body.courseId;
-  User.findById(req.user._id)
-    .then((user) => {
-      Course.findById(courseId).then((course) => {
-        user.courses.push(course);
-        return user.save();
-      });
-    })
-    .then((result) => {
+  Course.findById(courseId)
+  .then(course => {
+    req.user.courses.push(course);
+    course.students.push(req.user);
+    course.save();
+    req.user.save();
+  })
+  .then((result) => {
       res.redirect("/add-course");
     })
     .catch((err) => console.log(err));
