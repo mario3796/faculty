@@ -122,15 +122,16 @@ exports.getAddCourse = (req, res, next) => {
 exports.postAddCourse = (req, res, next) => {
   const name = req.body.name;
   const description = req.body.desc;
-  const instructorId = req.body.instructor;
+  const instructor = req.body.instructor;
   const course = new Course();
   course.name = name;
   course.description = description;
-  course.instructorId = instructorId;
+  course.instructor = instructor;
   course
     .save()
     .then((result) => {
-      User.findById(instructorId).then((user) => {
+      User.findById(instructor).then((user) => {
+        console.log(result);
         user.courses.push(result);
         return user.save();
       });
