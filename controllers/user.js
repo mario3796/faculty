@@ -137,9 +137,8 @@ exports.postAddCourse = (req, res, next) => {
 };
 
 exports.getStudentCourses = async (req, res, next) => {
-  User.findById(req.user._id).populate('courses')
-    .then((user) => {
-      const courses = user.courses;
+  Course.find({students: req.user}).populate('instructor')
+    .then((courses) => {
         return res.render("courses", {
           path: "/student-courses",
           title: "Student Courses",
