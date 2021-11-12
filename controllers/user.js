@@ -220,4 +220,17 @@ exports.postEditProfile = (req, res, next) => {
     res.redirect('/profile/'+userId);
   })
   .catch(err => console.log(err));
+};
+
+exports.getCourseStudents = (req, res, next) => {
+  const courseId = req.params.courseId;
+  Course.findById(courseId).populate('students')
+  .then(course => {
+    res.render('course-students', {
+      path: '/course-students',
+      title: 'Course Students',
+      course: course
+    })
+  })
+  .catch(err => console.log(err));
 }
