@@ -42,6 +42,7 @@
                                                 </form>
                                                 <% } %>
                                     <form action="/admin/delete-course" method="post">
+                                        <a href="/course-students/<%= course._id %>" class="btn btn-warning">Students</a>
                                         <a href="/course-details/<%= course._id %>" class="btn btn-success">Details</a>
                                         <% if(isAuthenticated && userType === 'admin') { %>
                                         <a href="/admin/edit-course/<%= course._id %>" class="btn btn-primary">Edit</a>
