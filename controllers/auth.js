@@ -42,6 +42,9 @@ exports.postLogin = (req, res, next) => {
     const password = req.body.pwd;
     User.findOne({email: email})
     .then(user => {
+        if (!user) {
+            return res.redirect('/auth/login');
+        }
         bcrypt.compare(password, user.password)
         .then(doMatch => {
             if(doMatch) {
