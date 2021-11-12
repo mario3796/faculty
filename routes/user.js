@@ -32,4 +32,6 @@ router.get('/edit-profile/:userId', userController.getEditProfile);
 
 router.post('/edit-profile', userController.postEditProfile);
 
+router.get('/course-students/:courseId', userController.getCourseStudents);
+
 module.exports = router;
