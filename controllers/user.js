@@ -150,15 +150,23 @@ exports.getStudentCourses = async (req, res, next) => {
 
 exports.postDeleteCourse = (req, res, next) => {
   const courseId = req.body.courseId;
-  let courses = [...req.user.courses];
-  courses = courses.filter((course) => course._id.toString() != courseId);
-  req.user.courses = [...courses];
-  req.user
-    .save()
-    .then((result) => {
-      res.redirect("/student-courses");
-    })
-    .catch((err) => console.log(err));
+  Course.findById(courseId)
+  .then(course => {
+    let students = course.students.filter(student => student.toString() != req.user._id.toString());
+    console.log(students);
+    course.students = [...students];
+    return course.save();
+  })
+  .then(result => {
+    let courses = req.user.courses.filter(course => course._id.toString() != courseId.toString());
+    console.log(courses);
+    req.user.courses = [...courses];
+    return req.user.save();
+  })
+  .then(result => {
+    res.redirect("/student-courses");
+  })
+  .catch(err => console.log(err));
 };
 
 exports.getProfile = (req, res, next) => {
