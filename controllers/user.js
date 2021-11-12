@@ -89,8 +89,8 @@ exports.getInstructorCourses = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.getAddCourse = async (req, res, next) => {
-  Course.find()
+exports.getAddCourse = (req, res, next) => {
+  Course.find().populate('instructor')
     .then((courses) => {
       let remainingCourses = [];
       if (req.user.courses.length > 0) {
@@ -112,14 +112,11 @@ exports.getAddCourse = async (req, res, next) => {
           courses = [];
         }
       }
-      User.find({ user_type: "instructor" }).then((users) => {
         res.render("courses", {
           path: "/add-course",
           title: "Register Course",
           courses: courses,
-          users: users,
         });
-      });
     })
     .catch((err) => console.log(err));
 };
@@ -140,17 +137,14 @@ exports.postAddCourse = (req, res, next) => {
 };
 
 exports.getStudentCourses = async (req, res, next) => {
-  User.findById(req.user._id)
+  User.findById(req.user._id).populate('courses')
     .then((user) => {
       const courses = user.courses;
-      User.find({ user_type: "instructor" }).then((users) => {
         return res.render("courses", {
           path: "/student-courses",
           title: "Student Courses",
           courses: courses,
-          users: users,
         });
-      });
     })
     .catch((err) => console.log(err));
 };
