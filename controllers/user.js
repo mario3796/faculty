@@ -78,7 +78,7 @@ exports.getCourseDetails = (req, res, next) => {
 };
 
 exports.getInstructorCourses = (req, res, next) => {
-  Course.find({ instructorId: req.user._id })
+  Course.find({ instructor: req.user._id })
     .then((courses) => {
       res.render("courses", {
         path: "/instructor-courses",
