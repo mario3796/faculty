@@ -9,6 +9,7 @@
                     <table class="table table-hover">
                         <tr>
                             <th>ID</th>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>User Type</th>
@@ -19,6 +20,9 @@
                             <tr>
                                 <td>
                                     <%= user._id %>
+                                </td>
+                                <td>
+                                    <img src="../<%= user.imageUrl %>" height="60" alt="">
                                 </td>
                                 <td>
                                     <%= user.name %>
