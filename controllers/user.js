@@ -52,19 +52,16 @@ exports.getInstructors = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.getCourses = async (req, res, next) => {
-  const users = await User.find({ user_type: "instructor" });
-  const courses = await Course.find();
-  try {
+exports.getCourses = (req, res, next) => {
+  Course.find().populate('instructor')
+  .then(courses => {
     res.render("courses", {
       path: "/courses",
       title: "Courses",
       courses: courses,
-      users: users,
     });
-  } catch (err) {
-    console.log(err);
-  }
+  })
+  .catch(err => console.log(err));
 };
 
 exports.getCourseDetails = (req, res, next) => {
