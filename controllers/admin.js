@@ -170,12 +170,12 @@ exports.postEditCourse = (req, res, next) => {
   const courseId = req.body.courseId;
   const name = req.body.name;
   const description = req.body.desc;
-  const instructorId = req.body.instructor;
+  const instructor = req.body.instructor;
   Course.findById(courseId)
     .then((course) => {
       course.name = name;
       course.description = description;
-      course.instructorId = instructorId;
+      course.instructor = instructor;
       return course.save();
     })
     .then((result) => res.redirect("/courses"));
