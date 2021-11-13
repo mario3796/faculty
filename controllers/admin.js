@@ -82,29 +82,39 @@ exports.postEditUser = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.postDeleteUser = (req, res, next) => {
+exports.postDeleteUser = async (req, res, next) => {
   const userId = req.body.userId;
-  User.findByIdAndRemove(userId)
-    .then((result) => {
-      if (result.user_type === "instructor") {
-        if (result.courses.length > 0) {
-          return Course.deleteMany({ instructorId: result._id }, () => {
-            User.find({ user_type: "student" })
-              .then((students) => {
-                students.forEach(async (student) => {
-                  student.courses = [];
-                  await student.save();
-                });
-              })
-              .then((result) => res.redirect("/"));
-          });
-        }
-      }
-    })
-    .then((result) => {
-      res.redirect("/");
-    })
-    .catch((err) => console.log(err));
+  try {
+    const user = await User.findByIdAndRemove(userId);
+    if (user.user_type !== "instructor") {
+      const courses = await Course.find({ students: user._id });
+      courses.forEach(async (course) => {
+        console.log("course students", course.students);
+        let students = course.students.filter(
+          (student) => student.toString() != user._id.toString()
+        );
+        console.log("students", students);
+        course.students = [...students];
+        await course.save();
+      });
+    } else {
+      Course.deleteMany({ instructor: user._id }, async () => {
+        const students = await User.find({ user_type: "student" });
+        students.forEach(async (student) => {
+          console.log("student courses", student.courses);
+          let courses = student.courses.filter(
+            (course) => course.instructor.toString() != user._id.toString()
+          );
+          console.log("courses", courses);
+          student.courses = [...courses];
+          await student.save();
+        });
+      });
+    }
+    res.redirect("/");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.getAddCourse = (req, res, next) => {
