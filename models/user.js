@@ -20,7 +20,7 @@ const userSchema = new Schema({
     },
     department: String,
     imageUrl: String,
-    courses: Array
+    courses: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Course' }]
 });
 
 module.exports = mongoose.model('User', userSchema);
