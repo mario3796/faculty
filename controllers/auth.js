@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 const User = require("../models/user");
 
 exports.getLogin = (req, res, next) => {
@@ -11,7 +12,7 @@ exports.getLogin = (req, res, next) => {
 exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
         path: '/auth/signup',
-        title: 'Signup'
+        title: 'Signup',
     })
 };
 
@@ -19,7 +20,17 @@ exports.postSignup = (req, res, next) => {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.pwd;
-    const imageUrl = req.file.path;
+    const confirmPassword = req.body.confirmPassword;
+    const imageUrl = req.file ? req.file.path : null;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log(errors);
+        return res.status(422).render('auth/signup', {
+            path: '/auth/signup',
+            title: 'Signup',
+            errorMessage: errors.array()[0].msg
+        });
+    }
     bcrypt.hash(password, 12)
     .then(hashedPassword => {
         const user = new User();
