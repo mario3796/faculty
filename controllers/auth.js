@@ -5,7 +5,13 @@ const User = require("../models/user");
 exports.getLogin = (req, res, next) => {
     res.render('auth/login', {
         path: '/auth/login',
-        title: 'Login'
+        title: 'Login',
+        errorMessage: null,
+        validationErrors: [],
+            oldInput: {
+                email: '',
+                pwd: ''
+            }
     })
 };
 
