@@ -25,7 +25,7 @@ router.post('/add-user',isAuth, isAdmin, [
     }),
     body('pwd').trim().notEmpty().isLength({min: 5}).withMessage('password must not less 5 characters!'),
     body('userType').notEmpty().withMessage('please choose a user type!'),
-    body('fname').trim().notEmpty().isLength({min: 2}).withMessage('please enter a valid department name!'),
+    body('dept').trim().notEmpty().isLength({min: 2}).withMessage('please enter a valid department name!'),
 ]
 , adminController.postAddUser);
 
