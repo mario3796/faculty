@@ -69,6 +69,8 @@ exports.getEditUser = (req, res, next) => {
         title: "Edit User",
         editing: true,
         user: user,
+        errorMessage: null,
+        validationErrors: []
       });
     })
     .catch((err) => console.log(err));
