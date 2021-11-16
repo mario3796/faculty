@@ -8,6 +8,9 @@ exports.getAddUser = (req, res, next) => {
     path: "/admin/add-user",
     title: "Add User",
     editing: false,
+    errorMessage: null,
+    validationErrors: [],
+    hasError: false
   });
 };
 
