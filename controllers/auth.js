@@ -21,7 +21,7 @@ exports.postSignup = (req, res, next) => {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.pwd;
-    const confirmPassword = req.body.confirmPassword;
+    const confirmPassword = req.body.confirmPwd;
     const imageUrl = req.file ? req.file.path : null;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -29,7 +29,14 @@ exports.postSignup = (req, res, next) => {
         return res.status(422).render('auth/signup', {
             path: '/auth/signup',
             title: 'Signup',
-            errorMessage: errors.array()[0].msg
+            errorMessage: errors.array()[0].msg,
+            validationErrors: validationResult(req).array(),
+            oldInput: {
+                name: name,
+                email: email,
+                pwd: password,
+                confirmPwd: confirmPassword
+            }
         });
     }
     bcrypt.hash(password, 12)
