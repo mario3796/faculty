@@ -82,7 +82,7 @@ exports.postLogin = (req, res, next) => {
             validationErrors: validationResult(req).array(),
             oldInput: {
                 email: email,
-                password: password
+                pwd: password
             }
         });
     }
