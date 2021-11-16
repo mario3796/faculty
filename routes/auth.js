@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcryptjs");
 const { body } = require("express-validator");
 
 const router = express.Router();
@@ -11,7 +12,24 @@ const User = require("../models/user");
 
 router.get('/login', isNotAuth, authController.getLogin);
 
-router.post('/login', isNotAuth, authController.postLogin);
+router.post('/login', isNotAuth, [
+    body('email').notEmpty().isEmail().withMessage('please enter a valid email!')
+    .custom((value, {req}) => {
+        return User.findOne({email: value})
+        .then(user => {
+            if (!user) {
+                return Promise.reject("invalid email or password!");
+            }
+            return bcrypt.compare(req.body.pwd, user.password)
+            .then(doMatch => {
+                if (!doMatch) {
+                    return Promise.reject("invalid email or password!");
+                }
+            })
+        })
+    }),
+    body('pwd').notEmpty().isLength({min: 5}).withMessage('password must not less 5 characters!'),
+], authController.postLogin);
 
 router.get('/signup', isNotAuth, authController.getSignup);
 
