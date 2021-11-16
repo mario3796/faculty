@@ -30,7 +30,7 @@ router.post('/signup', isNotAuth, [
         })
     }),
     body('pwd').notEmpty().isLength({min: 5}).withMessage('password must not less 5 characters!'),
-    body('confirmPWD').custom((value, {req}) => {
+    body('confirmPwd').custom((value, {req}) => {
         if (value !== req.body.pwd) {
             throw new Error("password and confirm password do not match!");
         }
