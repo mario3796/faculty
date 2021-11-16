@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const Course = require("../models/course");
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
 exports.getAddUser = (req, res, next) => {
   res.render("admin/edit-user", {
@@ -17,8 +18,26 @@ exports.postAddUser = (req, res, next) => {
   const password = req.body.pwd;
   const userType = req.body.userType;
   const department = req.body.dept;
-  const imageUrl = req.file.path;
-
+  const imageUrl = req.file ? req.file.path : null;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return res.status(422).render("admin/edit-user", {
+      path: '/admin/add-user',
+      title: 'Add User',
+      editing: false,
+      errorMessage: errors.array()[0].msg,
+      validationErrors: validationResult(req).array(),
+      hasError: true,
+      user: {
+        name: firstName + ' ' + lastName,
+        email: email,
+        password: password,
+        user_type: userType,
+        department: department
+      }
+    });
+  }
   bcrypt
     .hash(password, 12)
     .then((hashedPassword) => {
