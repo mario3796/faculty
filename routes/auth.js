@@ -20,7 +20,13 @@ router.post('/login', isNotAuth, [
             if (!user) {
                 return Promise.reject("invalid email or password!");
             }
-            return bcrypt.compare(req.body.pwd, user.password)
+        })
+    }),
+    body('pwd').notEmpty().isLength({min: 5}).withMessage('password must not less 5 characters!')
+    .custom((value, {req}) => {
+        return User.findOne({email: req.body.email})
+        .then(user => {
+            return bcrypt.compare(value, user.password)
             .then(doMatch => {
                 if (!doMatch) {
                     return Promise.reject("invalid email or password!");
@@ -28,7 +34,6 @@ router.post('/login', isNotAuth, [
             })
         })
     }),
-    body('pwd').notEmpty().isLength({min: 5}).withMessage('password must not less 5 characters!'),
 ], authController.postLogin);
 
 router.get('/signup', isNotAuth, authController.getSignup);
