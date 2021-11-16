@@ -66,6 +66,20 @@ exports.postSignup = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.pwd;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log(errors);
+        return res.status(422).render('auth/login', {
+            path: '/auth/login',
+            title: 'Login',
+            errorMessage: errors.array()[0].msg,
+            validationErrors: validationResult(req).array(),
+            oldInput: {
+                email: email,
+                password: password
+            }
+        });
+    }
     User.findOne({email: email})
     .then(user => {
         if (!user) {
