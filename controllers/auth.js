@@ -13,7 +13,14 @@ exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
         path: '/auth/signup',
         title: 'Signup',
-        errorMessage: null
+        errorMessage: null,
+        validationErrors: [],
+            oldInput: {
+                name: '',
+                email: '',
+                pwd: '',
+                confirmPwd: ''
+            }
     })
 };
 
