@@ -30,7 +30,7 @@ router.post('/delete-course', userController.postDeleteCourse);
 
 router.get('/profile', userController.getProfile);
 
-router.get('/edit-profile/:userId', userController.getEditProfile);
+router.get('/edit-profile', userController.getEditProfile);
 
 router.post('/edit-profile', [
     body('fname').trim().isLength({min: 3}).withMessage('please enter a valid name!'),
