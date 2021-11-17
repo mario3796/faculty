@@ -5,6 +5,7 @@ const router = express.Router();
 
 const adminController = require("../controllers/admin");
 const User = require("../models/user");
+const Course = require("../models/course");
 
 const isAuth = require("../middlewares/is-auth");
 const isAdmin = require("../middlewares/is-admin");
@@ -53,7 +54,19 @@ router.post('/delete-user',isAuth, isAdmin, adminController.postDeleteUser);
 
 router.get('/add-course',isAuth, isAdmin, adminController.getAddCourse);
 
-router.post('/add-course',isAuth, isAdmin, adminController.postAddCourse);
+router.post('/add-course',isAuth, isAdmin, [
+    body('name').trim().isLength({min: 2}).withMessage('please fill the name!')
+    .custom(value => {
+        return Course.findOne({name: value})
+        .then(course => {
+            if (course) {
+                return Promise.reject('name already exists pick a different one!');
+            }
+        })
+    }),
+    body('desc').trim().isLength({min: 20}).withMessage('description must not less than 20 characters!'),
+    body('instructor').notEmpty().withMessage('please choose an instructor!')
+], adminController.postAddCourse);
 
 router.get('/edit-course/:courseId', isAuth, isAdmin, adminController.getEditCourse);
 
