@@ -114,7 +114,7 @@ exports.postEditUser = (req, res, next) => {
           user.password = hashedPassword;
           user.userType = userType;
           user.department = department;
-          user.imageUrl = imageUrl;
+          user.imageUrl = imageUrl || user.imageUrl;
           return user.save();
         })
         .then((result) => {
