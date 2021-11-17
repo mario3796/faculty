@@ -168,6 +168,9 @@ exports.getAddCourse = (req, res, next) => {
         title: "Add Course",
         editing: false,
         users: users,
+        hasError: false,
+        validationErrors: [],
+        errorMessage: null,
       });
     })
     .catch((err) => console.log(err));
