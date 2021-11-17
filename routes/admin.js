@@ -70,7 +70,19 @@ router.post('/add-course',isAuth, isAdmin, [
 
 router.get('/edit-course/:courseId', isAuth, isAdmin, adminController.getEditCourse);
 
-router.post('/edit-course', isAuth, isAdmin, adminController.postEditCourse);
+router.post('/edit-course', isAuth, isAdmin, [
+    body('name').trim().isLength({min: 2}).withMessage('please fill the name!')
+    .custom((value, {req}) => {
+        return Course.findOne({name: value})
+        .then(course => {
+            if (course && course._id != req.body.courseId) {
+                return Promise.reject('name already exists pick a different one!');
+            }
+        })
+    }),
+    body('desc').trim().isLength({min: 20}).withMessage('description must not less than 20 characters!'),
+    body('instructor').notEmpty().withMessage('please choose an instructor!')
+] , adminController.postEditCourse);
 
 router.post('/delete-course',isAuth, isAdmin, adminController.postDeleteCourse);
 
