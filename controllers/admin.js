@@ -183,7 +183,7 @@ exports.postAddCourse = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors);
-    User.find({user_type: 'instructor'})
+    return User.find({user_type: 'instructor'})
     .then(users => {
       return res.status(422).render('admin/edit-course', {
         path: "/admin/add-course",
