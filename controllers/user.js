@@ -171,8 +171,8 @@ exports.postDeleteCourse = (req, res, next) => {
 };
 
 exports.getProfile = (req, res, next) => {
-  const userId = req.params.userId;
-  User.findById(userId.match(/^[0-9a-fA-F]{24}$/))
+  const userId = req.user._id;
+  User.findById(userId)
   .then(user => {
     res.render('user-details', {
       path: '/profile',
