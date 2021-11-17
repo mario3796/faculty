@@ -231,6 +231,9 @@ exports.getEditCourse = async (req, res, next) => {
     editing: true,
     course: course,
     users: users,
+    hasError: false,
+    validationErrors: [],
+    errorMessage: null,
   });
 };
 
