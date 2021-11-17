@@ -34,7 +34,15 @@ router.get('/edit-profile', userController.getEditProfile);
 
 router.post('/edit-profile', [
     body('fname').trim().isLength({min: 3}).withMessage('please enter a valid name!'),
-    body('lname').trim().isLength({min: 3}).withMessage('please enter a valid name!'),
+    body('lname').custom((value, {req}) => {
+        if (typeof(value) == 'undefined') {
+            value = '';
+        }
+        if (value.trim().length < 3 && req.user.user_type !== 'admin') {
+            throw new Error('please enter a valid name!')
+        }
+        return true;
+    }),
     body('email').notEmpty().isEmail().withMessage('please enter a valid email!')
     .custom((value, {req}) => {
         return User.findOne({email: value})
