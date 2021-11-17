@@ -12,8 +12,8 @@ const isAdmin = require("../middlewares/is-admin");
 router.get('/add-user',isAuth, isAdmin, adminController.getAddUser);
 
 router.post('/add-user',isAuth, isAdmin, [
-    body('fname').trim().notEmpty().isLength({min: 3}).withMessage('please enter a valid name!'),
-    body('lname').trim().notEmpty().isLength({min: 3}).withMessage('please enter a valid name!'),
+    body('fname').trim().isLength({min: 3}).withMessage('please enter a valid name!'),
+    body('lname').trim().isLength({min: 3}).withMessage('please enter a valid name!'),
     body('email').notEmpty().isEmail().withMessage('please enter a valid email!')
     .custom(value => {
         return User.findOne({email: value})
@@ -23,9 +23,9 @@ router.post('/add-user',isAuth, isAdmin, [
             }
         })
     }),
-    body('pwd').trim().notEmpty().isLength({min: 5}).withMessage('password must not less 5 characters!'),
+    body('pwd').trim().isLength({min: 5}).withMessage('password must not less 5 characters!'),
     body('userType').notEmpty().withMessage('please choose a user type!'),
-    body('dept').trim().notEmpty().isLength({min: 2}).withMessage('please enter a valid department name!'),
+    body('dept').trim().isLength({min: 2}).withMessage('please enter a valid department name!'),
 ]
 , adminController.postAddUser);
 
