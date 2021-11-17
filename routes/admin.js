@@ -31,7 +31,23 @@ router.post('/add-user',isAuth, isAdmin, [
 
 router.get('/edit-user/:userId',isAuth, isAdmin, adminController.getEditUser);
 
-router.post('/edit-user',isAuth, isAdmin, adminController.postEditUser);
+router.post('/edit-user',isAuth, isAdmin, [
+    body('fname').trim().isLength({min: 3}).withMessage('please enter a valid name!'),
+    body('lname').trim().isLength({min: 3}).withMessage('please enter a valid name!'),
+    body('email').notEmpty().isEmail().withMessage('please enter a valid email!')
+    .custom((value, {req}) => {
+        return User.findOne({email: value})
+        .then(user => {
+            if (user && user._id != req.body.userId) {
+                return Promise.reject("email already exists!");
+            }
+        })
+    }),
+    body('pwd').trim().isLength({min: 5}).withMessage('password must not less 5 characters!'),
+    body('userType').notEmpty().withMessage('please choose a user type!'),
+    body('dept').trim().isLength({min: 2}).withMessage('please enter a valid department name!'),
+]
+, adminController.postEditUser);
 
 router.post('/delete-user',isAuth, isAdmin, adminController.postDeleteUser);
 
