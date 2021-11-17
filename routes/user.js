@@ -28,7 +28,7 @@ router.get('/student-courses', userController.getStudentCourses);
 
 router.post('/delete-course', userController.postDeleteCourse);
 
-router.get('/profile/:userId', userController.getProfile);
+router.get('/profile', userController.getProfile);
 
 router.get('/edit-profile/:userId', userController.getEditProfile);
 
