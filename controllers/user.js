@@ -184,7 +184,7 @@ exports.getProfile = (req, res, next) => {
 };
 
 exports.getEditProfile = (req, res, next) => {
-  const userId = req.params.userId;
+  const userId = req.user._id;
   User.findById(userId)
   .then(user => {
     res.render('admin/edit-user', {
