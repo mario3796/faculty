@@ -242,6 +242,29 @@ exports.postEditCourse = (req, res, next) => {
   const name = req.body.name;
   const description = req.body.desc;
   const instructor = req.body.instructor;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return User.find({user_type: 'instructor'})
+    .then(users => {
+      return res.status(422).render('admin/edit-course', {
+        path: "/admin/edit-course",
+        title: "Edit Course",
+        editing: true,
+        users: users,
+        hasError: true,
+        validationErrors: validationResult(req).array(),
+        errorMessage: errors.array()[0].msg,
+        course: {
+          name: name,
+          description: description,
+          instructor: instructor,
+          _id: courseId
+        }
+      });
+    })
+    .catch(err => console.log(err));
+  }
   Course.findById(courseId)
     .then((course) => {
       course.name = name;
