@@ -84,7 +84,26 @@ exports.postEditUser = (req, res, next) => {
   const password = req.body.pwd;
   const userType = req.body.userType;
   const department = req.body.dept;
-  const imageUrl = req.file.path;
+  const imageUrl = req.file ? req.file.path : null;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return res.status(422).render('admin/edit-user', {
+      path: '/admin/edit-user',
+      title: 'Edit User',
+      editing: true,
+      errorMessage: errors.array()[0].msg,
+      validationErrors: validationResult(req).array(),
+      user: {
+        name: firstName + ' ' + lastName,
+        email: email,
+        password: password,
+        user_type: userType,
+        department: department,
+        _id: userId 
+      },
+    })
+  }
   bcrypt
     .hash(password, 12)
     .then((hashedPassword) => {
