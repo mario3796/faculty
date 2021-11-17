@@ -177,6 +177,28 @@ exports.postAddCourse = (req, res, next) => {
   const name = req.body.name;
   const description = req.body.desc;
   const instructor = req.body.instructor;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    User.find({user_type: 'instructor'})
+    .then(users => {
+      return res.status(422).render('admin/edit-course', {
+        path: "/admin/add-course",
+          title: "Add Course",
+          editing: false,
+          users: users,
+          hasError: true,
+          validationErrors: validationResult(req).array(),
+          errorMessage: errors.array()[0].msg,
+          course: {
+            name: name,
+            description: description,
+            instructor: instructor
+          }
+      });
+    })
+    .catch(err => console.log(err));
+  }
   const course = new Course();
   course.name = name;
   course.description = description;
