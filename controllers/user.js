@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
 const User = require("../models/user");
 const Course = require("../models/course");
@@ -186,12 +187,14 @@ exports.getEditProfile = (req, res, next) => {
   const userId = req.params.userId;
   User.findById(userId)
   .then(user => {
-    console.log(user);
     res.render('admin/edit-user', {
       path: '/edit-profile',
       title: 'Edit Profile',
       user: user,
-      editing: true
+      editing: true,
+      errorMessage: null,
+      validationErrors: [],
+      hasError: false
     })
   })
   .catch(err => console.log(err));
@@ -204,7 +207,7 @@ exports.postEditProfile = (req, res, next) => {
   const imageUrl = req.file.path;
   const email = req.body.email;
   const password = req.body.pwd;
-
+  
   bcrypt.hash(password, 12)
   .then(hashedPwd => {
     User.findById(userId)
