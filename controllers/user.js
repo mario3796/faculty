@@ -203,8 +203,8 @@ exports.getEditProfile = (req, res, next) => {
 exports.postEditProfile = (req, res, next) => {
   const userId = req.body.userId;
   const firstName = req.body.fname;
-  const lastName = req.body.lname;
-  const imageUrl = req.file ? req.file.path : null;
+  const lastName = req.body.lname || '';
+  const imageUrl = req.file ? req.file.path : req.user.imageUrl;
   const email = req.body.email;
   const password = req.body.pwd;
   const errors = validationResult(req);
@@ -237,7 +237,7 @@ exports.postEditProfile = (req, res, next) => {
     })
   })
   .then(result => {
-    res.redirect('/profile/'+userId);
+    res.redirect('/profile');
   })
   .catch(err => console.log(err));
 };
