@@ -204,10 +204,27 @@ exports.postEditProfile = (req, res, next) => {
   const userId = req.body.userId;
   const firstName = req.body.fname;
   const lastName = req.body.lname;
-  const imageUrl = req.file.path;
+  const imageUrl = req.file ? req.file.path : null;
   const email = req.body.email;
   const password = req.body.pwd;
-  
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+      return res.status(422).render('admin/edit-user', {
+        path: '/edit-profile',
+        title: 'Edit Profile',
+        user: {
+          name: (firstName + ' ' + lastName).trim(),
+          email: email,
+          password: password,
+          _id: userId
+        },
+        editing: true,
+        hasError: true,
+        errorMessage: errors.array()[0].msg,
+        validationErrors: validationResult(req).array()
+    })
+  }
   bcrypt.hash(password, 12)
   .then(hashedPwd => {
     User.findById(userId)
