@@ -57,7 +57,11 @@ exports.postAddUser = (req, res, next) => {
       console.log(result);
       res.redirect("/");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getEditUser = (req, res, next) => {
@@ -122,7 +126,11 @@ exports.postEditUser = (req, res, next) => {
           return res.redirect("/");
         });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postDeleteUser = async (req, res, next) => {
@@ -156,8 +164,10 @@ exports.postDeleteUser = async (req, res, next) => {
     }
     res.redirect("/");
   } catch (err) {
-    console.log(err);
-  }
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    }
 };
 
 exports.getAddCourse = (req, res, next) => {
@@ -173,7 +183,11 @@ exports.getAddCourse = (req, res, next) => {
         errorMessage: null,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postAddCourse = (req, res, next) => {
@@ -200,7 +214,11 @@ exports.postAddCourse = (req, res, next) => {
           }
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
   }
   const course = new Course();
   course.name = name;
@@ -218,23 +236,33 @@ exports.postAddCourse = (req, res, next) => {
     .then((result) => {
       res.redirect("/courses");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getEditCourse = async (req, res, next) => {
   const courseId = req.params.courseId;
-  const users = await User.find({ user_type: "instructor" });
-  const course = await Course.findById(courseId);
-  res.render("admin/edit-course", {
-    path: "/admin/edit-course",
-    title: "Edit Course",
-    editing: true,
-    course: course,
-    users: users,
-    hasError: false,
-    validationErrors: [],
-    errorMessage: null,
-  });
+  try {
+    const users = await User.find({ user_type: "instructor" });
+    const course = await Course.findById(courseId);
+    res.render("admin/edit-course", {
+      path: "/admin/edit-course",
+      title: "Edit Course",
+      editing: true,
+      course: course,
+      users: users,
+      hasError: false,
+      validationErrors: [],
+      errorMessage: null,
+    });
+  } catch(err) {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  }
 };
 
 exports.postEditCourse = (req, res, next) => {
@@ -263,7 +291,11 @@ exports.postEditCourse = (req, res, next) => {
         }
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
   }
   Course.findById(courseId)
     .then((course) => {
@@ -272,7 +304,12 @@ exports.postEditCourse = (req, res, next) => {
       course.instructor = instructor;
       return course.save();
     })
-    .then((result) => res.redirect("/courses"));
+    .then((result) => res.redirect("/courses"))
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postDeleteCourse = (req, res, next) => {
@@ -291,5 +328,9 @@ exports.postDeleteCourse = (req, res, next) => {
     .then((result) => {
       res.redirect("/courses");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };

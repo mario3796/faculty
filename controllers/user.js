@@ -13,7 +13,11 @@ exports.getIndex = (req, res, next) => {
         users: users,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getUserDetails = (req, res, next) => {
@@ -26,7 +30,11 @@ exports.getUserDetails = (req, res, next) => {
         user: user,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getStudents = (req, res, next) => {
@@ -38,7 +46,11 @@ exports.getStudents = (req, res, next) => {
         users: users,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getInstructors = (req, res, next) => {
@@ -50,7 +62,11 @@ exports.getInstructors = (req, res, next) => {
         users: users,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getCourses = (req, res, next) => {
@@ -62,7 +78,11 @@ exports.getCourses = (req, res, next) => {
       courses: courses,
     });
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  });
 };
 
 exports.getCourseDetails = (req, res, next) => {
@@ -75,7 +95,11 @@ exports.getCourseDetails = (req, res, next) => {
         course: course,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getInstructorCourses = (req, res, next) => {
@@ -87,7 +111,11 @@ exports.getInstructorCourses = (req, res, next) => {
         courses: courses,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getAddCourse = (req, res, next) => {
@@ -119,7 +147,11 @@ exports.getAddCourse = (req, res, next) => {
           courses: courses,
         });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postAddCourse = (req, res, next) => {
@@ -134,7 +166,11 @@ exports.postAddCourse = (req, res, next) => {
   .then((result) => {
       res.redirect("/add-course");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getStudentCourses = async (req, res, next) => {
@@ -146,7 +182,11 @@ exports.getStudentCourses = async (req, res, next) => {
           courses: courses,
         });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postDeleteCourse = (req, res, next) => {
@@ -167,7 +207,11 @@ exports.postDeleteCourse = (req, res, next) => {
   .then(result => {
     res.redirect("/student-courses");
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getProfile = (req, res, next) => {
@@ -179,7 +223,11 @@ exports.getProfile = (req, res, next) => {
       title: 'My Profile',
       user: user
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
   })
 };
 
@@ -197,7 +245,11 @@ exports.getEditProfile = (req, res, next) => {
       hasError: false
     })
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  });
 }
 
 exports.postEditProfile = (req, res, next) => {
@@ -239,7 +291,11 @@ exports.postEditProfile = (req, res, next) => {
   .then(result => {
     res.redirect('/profile');
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getCourseStudents = (req, res, next) => {
@@ -252,5 +308,9 @@ exports.getCourseStudents = (req, res, next) => {
       course: course
     })
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 }
