@@ -116,7 +116,10 @@ exports.postEditUser = (req, res, next) => {
           user.name = firstName + " " + lastName;
           user.email = email;
           user.password = hashedPassword;
-          user.userType = userType;
+          if (user.user_type !== userType && user.user_type.trim() === 'instructor') {
+            user.courses = [];
+          }
+          user.user_type = userType;
           user.department = department;
           user.imageUrl = imageUrl || user.imageUrl;
           return user.save();
