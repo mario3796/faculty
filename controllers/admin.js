@@ -113,12 +113,50 @@ exports.postEditUser = (req, res, next) => {
     .then((hashedPassword) => {
       User.findById(userId)
         .then((user) => {
+          if (user.user_type !== userType && user.user_type === 'instructor') {
+            user.courses = [];
+            Course.find({ instructor: user._id }, async(err, courses) => {
+              if (err) {
+                const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
+              }
+              const students = await User.find({user_type: 'student'});
+              students.forEach(async (student) => {
+                console.log('student courses', student.courses);
+                let remainingCourses = student.courses.filter(
+                  el => !courses.find(element => el.toString() == element._id.toString())
+                );
+                console.log('remaining courses', remainingCourses);
+                student.courses = [...remainingCourses];
+                await student.save();
+              });
+              await Course.deleteMany({instructor: user._id});
+            });
+            
+          } else if (user.user_type !== userType && user.user_type === 'student') {
+            user.courses = [];
+            Course.find({ students: user._id }, (err, courses) => {
+              if (err) {
+                const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
+              }
+              console.log('courses', courses);
+              courses.forEach(async (course) => {
+                console.log('course.students', course.students);
+                let students = course.students.filter(
+                  (student) => student.toString() != user._id.toString()
+                );
+                console.log('students', students);
+                course.students = [...students];
+                await course.save();
+              });
+            })
+          }
           user.name = firstName + " " + lastName;
           user.email = email;
           user.password = hashedPassword;
-          if (user.user_type !== userType && user.user_type.trim() === 'instructor') {
-            user.courses = [];
-          }
           user.user_type = userType;
           user.department = department;
           user.imageUrl = imageUrl || user.imageUrl;
