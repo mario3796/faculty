@@ -190,17 +190,23 @@ exports.postDeleteUser = async (req, res, next) => {
         await course.save();
       });
     } else {
-      Course.deleteMany({ instructor: user._id }, async () => {
-        const students = await User.find({ user_type: "student" });
+      Course.find({ instructor: user._id }, async(err, courses) => {
+        if (err) {
+          const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(error);
+        }
+        const students = await User.find({user_type: 'student'});
         students.forEach(async (student) => {
-          console.log("student courses", student.courses);
-          let courses = student.courses.filter(
-            (course) => course.instructor.toString() != user._id.toString()
+          console.log('student courses', student.courses);
+          let remainingCourses = student.courses.filter(
+            el => !courses.find(element => el.toString() == element._id.toString())
           );
-          console.log("courses", courses);
-          student.courses = [...courses];
+          console.log('remaining courses', remainingCourses);
+          student.courses = [...remainingCourses];
           await student.save();
         });
+        await Course.deleteMany({instructor: user._id});
       });
     }
     res.redirect("/");
