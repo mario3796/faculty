@@ -1,3 +1,4 @@
+const fs = require("fs");
 const User = require("../models/user");
 const Course = require("../models/course");
 const bcrypt = require("bcryptjs");
@@ -381,3 +382,14 @@ exports.postDeleteCourse = (req, res, next) => {
       return next(error);
     });
 };
+
+const deleteImage = (image) => {
+  fs.unlink(image, err => {
+    if (err) {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    }
+    console.log('file deleted.');
+  })
+}

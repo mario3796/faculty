@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const fs = require("fs");
 const { validationResult } = require("express-validator");
 
 const User = require("../models/user");
@@ -313,4 +314,15 @@ exports.getCourseStudents = (req, res, next) => {
       error.httpStatusCode = 500;
       return next(error);
     });
+};
+
+const deleteImage = (image) => {
+  fs.unlink(image, err => {
+    if (err) {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    }
+    console.log('file deleted.');
+  })
 }
