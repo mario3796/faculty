@@ -93,6 +93,9 @@ exports.postEditUser = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors);
+    if (imageUrl) {
+      deleteImage(imageUrl);
+    }
     return res.status(422).render('admin/edit-user', {
       path: '/admin/edit-user',
       title: 'Edit User',
@@ -155,6 +158,9 @@ exports.postEditUser = (req, res, next) => {
               });
             })
           }
+          if (imageUrl) {
+            deleteImage(user.imageUrl);
+          }
           user.name = firstName + " " + lastName;
           user.email = email;
           user.password = hashedPassword;
@@ -210,6 +216,7 @@ exports.postDeleteUser = async (req, res, next) => {
         await Course.deleteMany({instructor: user._id});
       });
     }
+    deleteImage(user.imageUrl);
     res.redirect("/");
   } catch (err) {
       const error = new Error(err);

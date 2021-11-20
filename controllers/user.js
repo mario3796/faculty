@@ -263,6 +263,9 @@ exports.postEditProfile = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors);
+    if (imageUrl) {
+      deleteImage(imageUrl);
+    }
       return res.status(422).render('admin/edit-user', {
         path: '/edit-profile',
         title: 'Edit Profile',
@@ -282,6 +285,9 @@ exports.postEditProfile = (req, res, next) => {
   .then(hashedPwd => {
     User.findById(userId)
     .then(user => {
+      if (imageUrl) {
+        deleteImage(user.imageUrl);
+      }
       user.name = (firstName + ' ' + lastName).trim();
       user.imageUrl = imageUrl;
       user.email = email;
