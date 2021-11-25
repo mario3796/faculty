@@ -1,0 +1,12 @@
+#logout {
+    background-color: transparent;
+    color: grey;
+}
+
+#logout :hover {
+    color: white
+}
+
+form {
+    display: inline
+}
